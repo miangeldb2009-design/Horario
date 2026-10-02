@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Horario de Miguel Ángel Hurtado · 2º SMR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Atkinson+Hyperlegible:wght@400;700&family=DM+Serif+Display&family=Exo+2:wght@600;700&family=Fredoka:wght@500;600&family=JetBrains+Mono:wght@500;700&family=Lora:wght@600;700&family=Orbitron:wght@600;700&family=Oswald:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f3f4f7;
+  --panel: #ffffff;
+  --text: #1c1f2b;
+  --muted: #5d6275;
+  --line: #d5d8e2;
+  --focus: #7c3aed;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101219; --panel: #191c27; --text: #eceef6; --muted: #9aa0b8; --line: #2d3245; --focus: #b39bff;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101219; --panel: #191c27; --text: #eceef6; --muted: #9aa0b8; --line: #2d3245; --focus: #b39bff;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { height: auto; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.45;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+header { margin-bottom: 1.4rem; display: flex; flex-wrap: wrap; gap: .8rem; justify-content: space-between; align-items: flex-start; }
+h1 { font-size: clamp(1.8rem, 5.5vw, 2.7rem); line-height: 1.1; margin: 0 0 .3rem; font-weight: 700; }
+h2 { font-size: 1.35rem; margin: 0 0 .5rem; font-weight: 700; }
+.sub { margin: 0; color: var(--muted); max-width: 60ch; }
+.theme-btn {
+  background: var(--panel); color: var(--text); border: 1.5px solid var(--line);
+  border-radius: 8px; padding: .4rem .85rem; font: inherit; font-size: .9rem; cursor: pointer;
+}
+.theme-btn:focus-visible, .scroller:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px; padding: 1.1rem; margin-bottom: 1.6rem; }
+.status { margin: 0 0 .9rem; }
+.status strong { font-weight: 700; }
+
+/* ---------- Estilo propio de cada asignatura (tipografía + tema) ---------- */
+.s-MME  { font-family: "Oswald", "Arial Narrow", sans-serif; font-weight: 500; letter-spacing: .02em; text-transform: uppercase;
+          color: #ffd21f;
+          background: repeating-linear-gradient(-45deg, #ffd21f 0 8px, #22252a 8px 16px) top / 100% 7px no-repeat, #3a3f47; }
+.s-SOR  { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-weight: 700; color: #4ade80; background: #0a0f0b; }
+.s-SOR .nm::before { content: "$ "; opacity: .7; }
+.s-SER  { font-family: "Exo 2", "Trebuchet MS", sans-serif; font-weight: 700; color: #e6f0ff;
+          background: radial-gradient(rgba(255,255,255,.2) 1.2px, transparent 1.7px) 0 0 / 14px 14px, #10307a; }
+.s-APW  { font-family: "Space Grotesk", system-ui, sans-serif; font-weight: 700; color: #1d1d3b;
+          background: linear-gradient(135deg, #ffd9ec, #d6e6ff 55%, #d2ffe9); }
+.s-DASP { font-family: "Orbitron", "Segoe UI", sans-serif; font-weight: 600; color: #22e5ff; background: #06262b;
+          text-shadow: 0 0 8px rgba(34,229,255,.55); font-size: .8em; }
+.s-SASP { font-family: "Lora", Georgia, serif; font-weight: 700; color: #f1ffe9; background: #2f6b3b; }
+.s-IPEII{ font-family: "DM Serif Display", Georgia, serif; font-weight: 400; color: #3b2a14; background: #f6efdf; }
+.s-OPT  { font-family: "Fredoka", "Trebuchet MS", sans-serif; font-weight: 600; color: #6a2f00; background: #ffd9b8; }
+.s-PI   { font-family: "Archivo Black", Impact, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .02em; color: #111; background: #ffffff; }
+
+/* Bloque de clase: el borde es el color del profesor */
+.blk { border: 5px solid var(--pc); border-radius: 10px; padding: .55rem .6rem; }
+.blk .nm { font-size: .98rem; line-height: 1.2; }
+.blk .pf { font-family: "Atkinson Hyperlegible", system-ui, sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; text-shadow: none;
+           font-size: .74rem; line-height: 1.25; margin-top: .3rem; opacity: .92; }
+.blk .hr { font-family: "Atkinson Hyperlegible", system-ui, sans-serif; font-weight: 700; text-transform: none; letter-spacing: 0; text-shadow: none;
+           font-size: .72rem; margin-top: .25rem; opacity: .85; }
+
+/* ---------- Tabla semanal ---------- */
+.scroller { overflow-x: auto; border: 1.5px solid var(--line); border-radius: 12px; background: var(--panel); padding: .4rem; }
+table { border-collapse: separate; border-spacing: 5px; width: 100%; min-width: 900px; table-layout: fixed; }
+thead th { padding: .5rem .3rem; font-size: 1rem; border-radius: 8px; background: var(--bg); font-weight: 700; }
+thead th.today-col { background: var(--text); color: var(--panel); }
+tbody th { width: 5.6rem; font-weight: 400; font-size: .82rem; color: var(--muted); text-align: left; padding: .3rem .3rem; }
+tbody th .n { display: block; font-weight: 700; color: var(--text); font-size: .95rem; }
+td.cell { padding: 0; height: 5.2rem; vertical-align: stretch; }
+td.cell .blk { height: 100%; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+td.cell.today-col .blk { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--text); }
+tr.recreo td { text-align: center; color: var(--muted); font-size: .8rem; padding: .2rem; border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); }
+tr.recreo th { font-size: .75rem; }
+
+/* ---------- Hoy ---------- */
+ol.today { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+ol.today li.clase { display: grid; grid-template-columns: 7rem 1fr; gap: .7rem; align-items: center; }
+ol.today li.clase .blk { grid-column: 1 / -1; display: grid; grid-template-columns: 6.4rem 1fr; gap: .7rem; align-items: center; }
+ol.today .blk .hr { margin: 0; font-size: .85rem; opacity: .95; }
+ol.today li.recreo { text-align: center; color: var(--muted); font-size: .85rem; border: 1.5px dashed var(--line); border-radius: 8px; padding: .3rem; }
+ol.today li.past { opacity: .45; }
+ol.today li.now .blk { box-shadow: 0 0 0 3px var(--panel), 0 0 0 6px var(--text); }
+ol.today li.now.recreo { border-color: var(--text); color: var(--text); }
+.chip { display: inline-block; margin-left: .5rem; font-family: "Atkinson Hyperlegible", sans-serif; font-weight: 700; text-transform: none; letter-spacing: 0; text-shadow: none;
+        font-size: .72rem; background: #fff; color: #111; border-radius: 999px; padding: 0 .55rem; vertical-align: middle; }
+.chip.dark { background: var(--text); color: var(--panel); }
+
+/* ---------- Leyenda de profesores ---------- */
+.profes { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .6rem; }
+.profes li { display: flex; gap: .7rem; align-items: flex-start; padding: .6rem .7rem; background: var(--panel); border: 1.5px solid var(--line); border-radius: 10px; }
+.swatch { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 6px; border: 5px solid var(--pc); background: var(--panel); margin-top: .1rem; }
+.profes b { display: block; font-size: .95rem; }
+.profes span.as { font-size: .82rem; color: var(--muted); }
+.note { margin: .9rem 0 0; font-size: .9rem; color: var(--muted); max-width: 70ch; }
+
+/* ---------- Interactividad ---------- */
+.blk[data-code] { cursor: pointer; transition: transform .15s ease, opacity .2s ease, filter .2s ease; }
+.blk[data-code]:hover { transform: translateY(-2px); }
+.blk[data-code]:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.blk.dim { opacity: .2; filter: grayscale(.7); }
+.profes li[data-profe] { cursor: pointer; }
+.profes li[data-profe]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.profes li.on { border-color: var(--pc); box-shadow: 0 0 0 2px var(--pc); }
+
+dialog#dlg { border: none; border-radius: 16px; padding: 0; width: min(94vw, 460px); background: var(--panel); color: var(--text);
+             box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+dialog#dlg::backdrop { background: rgba(10, 12, 20, .6); }
+.dhead { border: 5px solid var(--pc); border-radius: 14px 14px 0 0; padding: 1.1rem 1.1rem 1rem; }
+.dhead .nm { font-size: 1.4rem; line-height: 1.15; }
+.dhead .pf { font-family: "Atkinson Hyperlegible", system-ui, sans-serif; font-weight: 400; text-transform: none; letter-spacing: 0; text-shadow: none; font-size: .9rem; margin-top: .4rem; }
+.dbody { padding: 1rem 1.1rem 1.2rem; }
+.dbody h3 { font-size: .95rem; margin: 0 0 .4rem; }
+.dbody ul.ses { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .25rem; font-size: .95rem; }
+.dbody ul.ses span { color: var(--muted); font-size: .85rem; }
+.dbody .tot { color: var(--muted); font-size: .88rem; margin: -.5rem 0 1rem; }
+.links { display: grid; gap: .5rem; }
+.links a, .links button {
+  display: block; text-align: center; text-decoration: none; font: inherit; font-weight: 700; font-size: .95rem; cursor: pointer;
+  padding: .6rem .8rem; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); color: var(--text);
+}
+.links a.main { background: var(--text); color: var(--panel); border-color: var(--text); }
+.links a:hover, .links button:hover { border-color: var(--text); }
+.links a:focus-visible, .links button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+@media (max-width: 560px) {
+  ol.today .blk { grid-template-columns: 1fr; gap: .2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blk[data-code] { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Horario de 2º SMR</h1>
+      <p class="sub"><strong>Miguel Ángel Hurtado</strong> · IES Donoso Cortés. El borde de cada asignatura tiene el color de su profesor o profesora.</p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Cambiar entre tema claro y oscuro">Claro / oscuro</button>
+  </header>
+
+  <section class="panel" aria-labelledby="hoyTitulo">
+    <h2 id="hoyTitulo">Hoy</h2>
+    <p class="status" id="status"></p>
+    <ol class="today" id="today"></ol>
+  </section>
+
+  <section aria-labelledby="semanaTitulo">
+    <h2 id="semanaTitulo">Semana completa</h2>
+    <div class="scroller" tabindex="0" role="region" aria-label="Horario semanal, desliza para ver todos los días">
+      <table id="grid"></table>
+    </div>
+    <ul class="profes" id="profes"></ul>
+    <p class="note">Toca una asignatura para ver sus horas de la semana y abrir enlaces. Toca un profesor para resaltar sus clases y vuelve a tocarlo para quitar el resaltado. Las clases seguidas de la misma asignatura salen unidas; si hay recreo en medio, se muestran por separado.</p>
+  </section>
+</div>
+
+<dialog id="dlg" aria-label="Detalle de la asignatura"></dialog>
+
+<script>
+/* ---------- DATOS: edita aquí si algo cambia ---------- */
+var PROFES = {
+  FRAN:  { nombre: "María Francisca Manchado Moraga",   color: "#e11d48" },
+  MANU:  { nombre: "Manuel Manchado Moraga",            color: "#f59e0b" },
+  SOLE:  { nombre: "María Soledad Casado Sanz",         color: "#7c3aed" },
+  SAUL:  { nombre: "Saúl González González de Mendoza", color: "#22c55e" }
+};
+
+var ASIGNATURAS = {
+  MME:   { nombre: "Montaje y mantenimiento de equipo",              profe: "FRAN" },
+  SOR:   { nombre: "Sistemas operativos en red",                     profe: "MANU" },
+  SER:   { nombre: "Servicios en red",                               profe: "SAUL" },
+  APW:   { nombre: "Aplicaciones web",                               profe: "SOLE" },
+  DASP:  { nombre: "Digitalización aplicada a los sectores productivos", profe: "SOLE" },
+  SASP:  { nombre: "Sostenibilidad aplicada al sistema productivo",  profe: "MANU" },
+  IPEII: { nombre: "Itinerario personal para la empleabilidad II",   profe: "MANU" },
+  OPT:   { nombre: "Optativa",                                       profe: "SOLE" },
+  PI:    { nombre: "Proyecto intermodular",                          profe: "FRAN" }
+};
+
+var DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+
+var HORARIO = [
+  { n: 1, ini: "8:30",  fin: "9:25",  dias: ["MME",   "SOR", "MME",   "DASP",  "APW"] },
+  { n: 2, ini: "9:25",  fin: "10:20", dias: ["MME",   "OPT", "MME",   "SOR",   "SOR"] },
+  { recreo: true, ini: "10:20", fin: "10:40" },
+  { n: 3, ini: "10:40", fin: "11:35", dias: ["OPT",   "SER", "APW",   "IPEII", "SOR"] },
+  { n: 4, ini: "11:35", fin: "12:30", dias: ["SOR",   "SER", "APW",   "SER",   "MME"] },
+  { recreo: true, ini: "12:30", fin: "12:40" },
+  { n: 5, ini: "12:40", fin: "13:35", dias: ["IPEII", "APW", "IPEII", "MME",   "SER"] },
+  { n: 6, ini: "13:35", fin: "14:30", dias: ["SER",   "PI",  "SASP",  "OPT",   "SER"] }
+];
+/* ------------------------------------------------------ */
+
+function mins(t) { var p = t.split(":"); return parseInt(p[0], 10) * 60 + parseInt(p[1], 10); }
+function pcolor(code) { return PROFES[ASIGNATURAS[code].profe].color; }
+function pname(code) { return PROFES[ASIGNATURAS[code].profe].nombre; }
+function attrs(code) {
+  return "data-code='" + code + "' data-profe='" + ASIGNATURAS[code].profe + "' role='button' tabindex='0' " +
+         "aria-label='Ver detalles de " + ASIGNATURAS[code].nombre + "' style='--pc:" + pcolor(code) + "'";
+}
+
+var now = new Date();
+var dow = (now.getDay() + 6) % 7;
+var esLectivo = dow <= 4;
+var nowMin = now.getHours() * 60 + now.getMinutes();
+
+/* Junta clases seguidas iguales (sin recreo en medio) de un día */
+function bloquesDelDia(d) {
+  var out = [], i = 0;
+  while (i < HORARIO.length) {
+    var f = HORARIO[i];
+    if (f.recreo) { out.push({ recreo: true, ini: f.ini, fin: f.fin, desde: i, hasta: i }); i++; continue; }
+    var code = f.dias[d], j = i;
+    while (j + 1 < HORARIO.length && !HORARIO[j + 1].recreo && HORARIO[j + 1].dias[d] === code) j++;
+    out.push({ code: code, ini: f.ini, fin: HORARIO[j].fin, desde: i, hasta: j, span: j - i + 1 });
+    i = j + 1;
+  }
+  return out;
+}
+
+function bloqueHtml(b, conHoras) {
+  return "<div class='blk s-" + b.code + "' " + attrs(b.code) + ">" +
+    "<div class='nm'>" + ASIGNATURAS[b.code].nombre + "</div>" +
+    "<div class='pf'>" + pname(b.code) + "</div>" +
+    (conHoras && b.span > 1 ? "<div class='hr'>" + b.ini + "–" + b.fin + "</div>" : "") +
+    "</div>";
+}
+
+/* ---------- Tabla semanal ---------- */
+(function buildGrid() {
+  var porDia = DIAS.map(function (_, d) { return bloquesDelDia(d); });
+  var html = "<thead><tr><th scope='col'></th>";
+  DIAS.forEach(function (d, i) {
+    html += "<th scope='col' class='" + (esLectivo && i === dow ? "today-col" : "") + "'>" + d + "</th>";
+  });
+  html += "</tr></thead><tbody>";
+
+  HORARIO.forEach(function (f, i) {
+    if (f.recreo) {
+      html += "<tr class='recreo'><th scope='row'>" + f.ini + "–" + f.fin + "</th><td colspan='5'>Recreo</td></tr>";
+      return;
+    }
+    html += "<tr><th scope='row'><span class='n'>" + f.n + "ª</span>" + f.ini + "–" + f.fin + "</th>";
+    for (var d = 0; d < 5; d++) {
+      var b = null;
+      porDia[d].forEach(function (x) { if (!x.recreo && x.desde === i) b = x; });
+      if (!b) continue;                      // celda cubierta por una unión
+      html += "<td class='cell" + (esLectivo && d === dow ? " today-col" : "") + "' rowspan='" + b.span + "'>" + bloqueHtml(b, true) + "</td>";
+    }
+    html += "</tr>";
+  });
+  html += "</tbody>";
+  document.getElementById("grid").innerHTML = html;
+
+  var leg = "";
+  Object.keys(PROFES).forEach(function (k) {
+    var as = Object.keys(ASIGNATURAS).filter(function (c) { return ASIGNATURAS[c].profe === k; })
+      .map(function (c) { return ASIGNATURAS[c].nombre; }).join(", ");
+    leg += "<li data-profe='" + k + "' role='button' tabindex='0' aria-pressed='false' aria-label='Resaltar las clases de " + PROFES[k].nombre + "' style='--pc:" + PROFES[k].color + "'><span class='swatch'></span><div><b>" + PROFES[k].nombre + "</b><span class='as'>" + as + "</span></div></li>";
+  });
+  document.getElementById("profes").innerHTML = leg;
+})();
+
+/* ---------- Panel de hoy ---------- */
+(function buildToday() {
+  var d = esLectivo ? dow : 0;
+  var titulo = document.getElementById("hoyTitulo");
+  var status = document.getElementById("status");
+  if (!esLectivo) { titulo.textContent = "El lunes"; status.textContent = "Hoy no hay clase. Así empieza la semana:"; }
+
+  var html = "", actual = null, siguiente = null, recreoAhora = null;
+  bloquesDelDia(d).forEach(function (b) {
+    var a = mins(b.ini), z = mins(b.fin);
+    var dentro = esLectivo && nowMin >= a && nowMin < z;
+    var pasado = esLectivo && nowMin >= z;
+    var cls = (dentro ? " now" : "") + (pasado ? " past" : "");
+    if (b.recreo) {
+      if (dentro) recreoAhora = b;
+      html += "<li class='recreo" + cls + "'>Recreo " + b.ini + "–" + b.fin + (dentro ? " <span class='chip dark'>ahora</span>" : "") + "</li>";
+      return;
+    }
+    if (dentro) actual = b;
+    if (esLectivo && !siguiente && nowMin < a) siguiente = b;
+    html += "<li class='clase" + cls + "'><div class='blk s-" + b.code + "' " + attrs(b.code) + ">" +
+      "<div class='hr'>" + b.ini + "–" + b.fin + "</div>" +
+      "<div><div class='nm'>" + ASIGNATURAS[b.code].nombre + (dentro ? " <span class='chip'>ahora</span>" : "") + "</div>" +
+      "<div class='pf'>" + pname(b.code) + "</div></div></div></li>";
+  });
+  document.getElementById("today").innerHTML = html;
+
+  if (esLectivo) {
+    titulo.textContent = "Hoy, " + DIAS[dow].toLowerCase();
+    if (actual) status.innerHTML = "Ahora: <strong>" + ASIGNATURAS[actual.code].nombre + "</strong> hasta las " + actual.fin + ".";
+    else if (recreoAhora) status.innerHTML = "<strong>Recreo</strong> hasta las " + recreoAhora.fin + (siguiente ? ". Después: " + ASIGNATURAS[siguiente.code].nombre + "." : ".");
+    else if (siguiente) status.innerHTML = "Primera clase a las " + siguiente.ini + ": <strong>" + ASIGNATURAS[siguiente.code].nombre + "</strong>.";
+    else status.textContent = "Ya no quedan clases hoy.";
+  }
+})();
+
+/* ---------- Interactivo: detalle de asignatura y resaltado por profesor ---------- */
+var dlg = document.getElementById("dlg");
+var filtro = null;
+
+function abrirDetalle(code) {
+  var a = ASIGNATURAS[code], pf = PROFES[a.profe];
+  var sesiones = "", total = 0;
+  DIAS.forEach(function (dn, d) {
+    bloquesDelDia(d).forEach(function (b) {
+      if (!b.recreo && b.code === code) {
+        total += b.span;
+        sesiones += "<li><b>" + dn + "</b> " + b.ini + "–" + b.fin + " <span>(" + b.span + (b.span > 1 ? " clases" : " clase") + ")</span></li>";
+      }
+    });
+  });
+
+  var q = encodeURIComponent(a.nombre + " 2 SMR");
+  var enlaces =
+    "<a class='main' href='https://rayuela.educarex.es' target='_blank' rel='noopener'>Abrir Rayuela</a>" +
+    "<a href='https://www.educarex.es' target='_blank' rel='noopener'>Ir a EducarEx</a>";
+  if (code !== "OPT") {
+    enlaces +=
+      "<a href='https://www.google.com/search?q=" + q + "%20apuntes' target='_blank' rel='noopener'>Buscar apuntes</a>" +
+      "<a href='https://www.youtube.com/results?search_query=" + q + "' target='_blank' rel='noopener'>Buscar vídeos en YouTube</a>";
+  }
+  enlaces += "<button type='button' data-cerrar>Cerrar</button>";
+
+  dlg.innerHTML =
+    "<div class='dhead s-" + code + "' style='--pc:" + pf.color + "'>" +
+      "<div class='nm'>" + a.nombre + "</div>" +
+      "<div class='pf'>" + pf.nombre + "</div>" +
+    "</div>" +
+    "<div class='dbody'>" +
+      "<h3>Cuándo la tienes</h3>" +
+      "<ul class='ses'>" + sesiones + "</ul>" +
+      "<p class='tot'>" + total + (total > 1 ? " clases" : " clase") + " a la semana</p>" +
+      "<div class='links'>" + enlaces + "</div>" +
+    "</div>";
+  dlg.showModal();
+}
+
+function aplicarFiltro() {
+  document.querySelectorAll(".blk[data-profe]").forEach(function (el) {
+    el.classList.toggle("dim", !!filtro && el.getAttribute("data-profe") !== filtro);
+  });
+  document.querySelectorAll(".profes li[data-profe]").forEach(function (li) {
+    var on = li.getAttribute("data-profe") === filtro;
+    li.classList.toggle("on", on);
+    li.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+}
+
+function activar(el) {
+  var leg = el.closest(".profes li[data-profe]");
+  if (leg) {
+    var k = leg.getAttribute("data-profe");
+    filtro = (filtro === k) ? null : k;
+    aplicarFiltro();
+    return;
+  }
+  var b = el.closest(".blk[data-code]");
+  if (b) abrirDetalle(b.getAttribute("data-code"));
+}
+
+document.addEventListener("click", function (e) {
+  if (e.target === dlg || e.target.closest("[data-cerrar]")) { dlg.close(); return; }
+  activar(e.target);
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  var el = e.target.closest && e.target.closest(".blk[data-code], .profes li[data-profe]");
+  if (el) { e.preventDefault(); activar(el); }
+});
+
+/* ---------- Tema claro/oscuro ---------- */
+document.getElementById("themeBtn").addEventListener("click", function () {
+  var r = document.documentElement;
+  var sistemaOscuro = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var actual = r.getAttribute("data-theme") || (sistemaOscuro ? "dark" : "light");
+  r.setAttribute("data-theme", actual === "dark" ? "light" : "dark");
+});
+</script>
+</body>
+</html>
